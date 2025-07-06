@@ -24,7 +24,7 @@ A real-time posture detection web app using Flask, OpenCV, and Mediapipe. This a
    git clone https://github.com/Anant2701/posture-detector-application.git
    cd posture-detector-application
    
-2. Create and activate a virtual environment
+2. Create and activate a virtual environment:
    On Windows:
      python -m venv venv
      venv\Scripts\activate
@@ -33,13 +33,13 @@ A real-time posture detection web app using Flask, OpenCV, and Mediapipe. This a
      python3 -m venv venv
      source venv/bin/activate
    
-3. Install dependencies
+3. Install dependencies:
    pip install -r requirements.txt
    
-4. Run the application
+4. Run the application:
    python app.py
    
-5. Open in browser
+5. Open in browser:
     http://localhost:5000
    
 
