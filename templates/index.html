@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Posture Detection App</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        #video-feed { border: 2px solid #333; }
+        #status { margin-top: 20px; font-size: 18px; }
+        button { font-size: 16px; padding: 10px 20px; margin: 5px; }
+        #summary { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Posture Detection Webcam Feed</h1>
+    <img id="video-feed" src="" width="720" height="560" alt="Video Feed" />
+    <div>
+        <button onclick="startDetection()">Start</button>
+        <button onclick="stopDetection()">Stop</button>
+    </div>
+    <div id="status">Status: Stopped</div>
+    <div id="summary"></div>
+
+<script>
+    let running = false;
+    let videoFeed = document.getElementById('video-feed');
+    let statusText = document.getElementById('status');
+    let summaryDiv = document.getElementById('summary');
+
+    function startDetection() {
+        if (running) return;
+        fetch('/start', {method: 'POST'}).then(res => res.json()).then(data => {
+            if (data.status === 'started') {
+                running = true;
+                statusText.innerText = 'Status: Running';
+                summaryDiv.innerText = '';
+                videoFeed.src = '/video_feed';
+            }
+        });
+    }
+
+    function stopDetection() {
+        if (!running) return;
+        fetch('/stop', {method: 'POST'}).then(res => res.json()).then(data => {
+            running = false;
+            statusText.innerText = 'Status: Stopped';
+            videoFeed.src = '';
+            summaryDiv.innerHTML = `
+                <p>Good Posture Frames: ${data.good_frames}</p>
+                <p>Bad Posture Frames: ${data.bad_frames}</p>
+                <p>Good Posture Percentage: ${data.good_pct}%</p>
+                <p>Bad Posture Percentage: ${data.bad_pct}%</p>
+            `;
+        });
+    }
+</script>
+</body>
+</html>
